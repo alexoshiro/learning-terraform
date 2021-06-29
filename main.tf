@@ -11,9 +11,9 @@ provider "aws" {
 
 resource "aws_instance" "dev" {
     count = 3
-    ami = "ami-0747bdcabd34c712a"
-    instance_type = "t2.micro"
-    key_name = "terraform-aws"
+    ami = var.amis["ami-us-east-1"]
+    instance_type = var.instance_type
+    key_name = var.key_name
     tags = { 
         Name = "devs${count.index}"
     }
@@ -21,21 +21,21 @@ resource "aws_instance" "dev" {
 }
 
 resource "aws_instance" "dev4" {
-    ami = "ami-0747bdcabd34c712a"
-    instance_type = "t2.micro"
-    key_name = "terraform-aws"
+    ami = var.amis["ami-us-east-1"]
+    instance_type = var.instance_type
+    key_name = var.key_name
     tags = { 
         Name = "devs4"
     }
     vpc_security_group_ids = ["${aws_security_group.ssh-access.id}"]
     depends_on = [aws_s3_bucket.dev4]
 }
-
+/*
 resource "aws_instance" "dev6" {
     provider = aws.provider2
-    ami = "ami-0b9064170e32bde34"
-    instance_type = "t2.micro"
-    key_name = "terraform-aws"
+    ami = var.amis["ami-us-east-2"]
+    instance_type = var.instance_type
+    key_name = var.key_name
     tags = { 
         Name = "devs6"
     }
@@ -62,7 +62,7 @@ resource "aws_dynamodb_table" "dynamodb-homologacao" {
         type = "S"
     }
 }
-
+*/
 resource "aws_s3_bucket" "dev4" {
     bucket = "test-dev4"
     acl    = "private"
